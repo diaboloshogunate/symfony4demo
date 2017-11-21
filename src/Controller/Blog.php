@@ -25,9 +25,9 @@ class Blog
 
         $data = [
             'title' => $post->getTitle(),
-            'content' => $post->getContent(),
+            'post' => $post,
         ];
 
-        return new Response($twig->render('page.html.twig', $data));
+        return new Response($twig->render('post.html.twig', $data));
     }
 }

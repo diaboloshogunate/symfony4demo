@@ -468,3 +468,170 @@ Create the Route. Preferable in a new Controller.
         return new Response($twig->render('page.html.twig', $data));
     }
 ```
+
+## Adding Tags
+
+Create tag entity
+
+```php
+<?php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="tags")
+ * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
+ */
+class Tag
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=80, unique=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Tag
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return Tag
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     * @return Tag
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+
+}
+```
+
+Create the tag repository
+
+```php
+<?php
+namespace App\Repository;
+
+use Doctrine\ORM\EntityRepository;
+
+class TagRepository extends EntityRepository
+{
+
+}
+```
+
+add the relationship to the post entity
+
+```php
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag")
+     * @ORM\JoinTable(name="post_tags",
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     *      )
+     */
+    private $tags;
+
+    public function __construct() {
+        $this->tags = new ArrayCollection();
+    }
+```
+
+Have the controller pass the object instead of passing every property
+
+```php
+    /**
+     * @Route("blog/{slug}", name="blog view", requirements={"slug":"[a-zA-Z0-9\-]+"})
+     * @param string $slug
+     */
+    public function view(string $slug, ManagerRegistry $doctrine, \Twig_Environment $twig)
+    {
+        /** @var $post \App\Entity\Post */
+        $post = $doctrine->getRepository(\App\Entity\Post::class)
+            ->findOneBy(['slug' => $slug]);
+
+        if(!$post) {
+            return new NotFoundHttpException();
+        }
+
+        $data = [
+            'title' => $post->getTitle(),
+            'post' => $post,
+        ];
+
+        return new Response($twig->render('post.html.twig', $data));
+    }
+```
+
+Create a new template just for post
+
+```twig
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row align-center">
+        <div class="small-12 medium-10 large-8 columns">
+            <h1>{{ post.title }}</h1>
+
+            {{ post.content | raw }}
+
+            {% for tag in post.tags %}
+                <a class="hollow button">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+```

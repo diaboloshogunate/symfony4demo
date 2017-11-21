@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row align-center">
+        <div class="small-12 medium-10 large-8 columns">
+            <h1>{{ post.title }}</h1>
+
+            {{ post.content | raw }}
+
+            {% for tag in post.tags %}
+                <a class="hollow button">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
