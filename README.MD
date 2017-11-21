@@ -87,3 +87,25 @@ controllers:
   resource: ../src/controller/
   type: annotation
 ```
+
+## capturing values
+
+```php
+    /**
+     * @Route("/hello/{name}", name="hello robot", requirements={"name": "\d+"})
+     * @return Response
+     */
+    public function robot($name)
+    {
+        return new Response(sprintf("Hello robot: %s.", $name));
+    }
+
+    /**
+     * @Route("/hello/{name}", name="hello human")
+     * @return Response
+     */
+    public function human($name = "john doe")
+    {
+        return new Response(sprintf("Hello human: %s.", $name));
+    }
+```
