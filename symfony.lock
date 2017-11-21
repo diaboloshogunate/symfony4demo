@@ -97,5 +97,38 @@
             "version": "3.3",
             "ref": "c72d107d077f1654428edaed69415d0228c1aefe"
         }
+    },
+    "doctrine/lexer": {
+        "version": "v1.0.1"
+    },
+    "doctrine/inflector": {
+        "version": "v1.2.0"
+    },
+    "doctrine/collections": {
+        "version": "v1.5.0"
+    },
+    "doctrine/cache": {
+        "version": "v1.7.1"
+    },
+    "doctrine/annotations": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "b9cde490c337f6c496d5f403fa6f827cf8b4706d"
+        }
+    },
+    "doctrine/common": {
+        "version": "v2.8.1"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
+        }
     }
 }

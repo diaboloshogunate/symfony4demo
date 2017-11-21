@@ -50,3 +50,40 @@ index:
     defaults: { _controller: 'App\Controller\HelloWorld::index' }
 ```
 
+## Using Annotations for Routing
+
+```bash
+composer require annotation
+```
+
+Add use statement and docblock to the controller method.
+
+```php
+<?php
+namespace App\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class HelloWorld
+{
+
+    /**
+     * @Route("/", name="hello world")
+     * @return Response
+     */
+    public function index()
+    {
+        return new Response("Hello World");
+    }
+
+}
+```
+
+Modify the route config file to load annotated routes from your controllers
+
+```yaml
+controllers:
+  resource: ../src/controller/
+  type: annotation
+```
