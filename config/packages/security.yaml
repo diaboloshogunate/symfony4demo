@@ -1,18 +1,30 @@
 security:
-    # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory: { memory: ~ }
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: ~
-
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+  # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+  providers:
+    in_memory:
+      memory:
+        users:
+          admin:
+            password: '$2y$12$d7vhR2iUF5Y40/n5iU521.xgJe3MAqo59Ca2CZ21D0hSVDUy7IV.e'
+            roles: 'ROLE_ADMIN'
+          kitten:
+            password: '$2y$12$7KDd0QL6NtPFrXjyAzXDzO1ljctYlxB2moTiC9gt7iz11IXG4kj/e'
+            roles: 'ROLE_USER'
+  encoders:
+    Symfony\Component\Security\Core\User\User:
+      algorithm: bcrypt
+      cost: 12
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: ~
+      form_login:
+        login_path: login
+        check_path: login
+  access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+  role_hierarchy:
+    ROLE_ADMIN: ["ROLE_EDITOR", "ROLE_ALLOWED_TO_SWITCH"]
+    ROLE_EDITOR: "ROLE_USER"

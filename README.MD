@@ -672,3 +672,148 @@ Add toString method to tags so they can be displayed when viewing post entities
 ```
 
 view pages at [http://localhost:8000/admin](http://localhost:8000/admin)
+
+## Security
+
+Add users
+
+```yaml
+  providers:
+    in_memory:
+      memory:
+        users:
+          admin:
+            password: 'password'
+            roles: 'ROLE_ADMIN'
+          kitten:
+            password: 'password'
+            roles: 'ROLE_USER'
+```
+
+Define roles hierarchy
+
+```yaml
+  role_hierarchy:
+    ROLE_ADMIN: ["ROLE_EDITOR", "ROLE_ALLOWED_TO_SWITCH"]
+    ROLE_EDITOR: "ROLE_USER"
+```
+
+Restrict section of website to admin role
+
+```yaml
+  access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+```
+
+Define the password encoder
+
+```yaml
+  encoders:
+    Symfony\Component\Security\Core\User\User:
+      algorithm: bcrypt
+      cost: 12
+```
+
+Get encoded passwords with 
+
+```bash
+php bin/console security:encode-password
+```
+
+Replace plaintext passwords with the encoded ones
+
+```yaml
+  providers:
+    in_memory:
+      memory:
+        users:
+          admin:
+            password: '$2y$12$d7vhR2iUF5Y40/n5iU521.xgJe3MAqo59Ca2CZ21D0hSVDUy7IV.e'
+            roles: 'ROLE_ADMIN'
+          kitten:
+            password: '$2y$12$7KDd0QL6NtPFrXjyAzXDzO1ljctYlxB2moTiC9gt7iz11IXG4kj/e'
+            roles: 'ROLE_USER'
+```
+
+Set the firewall to use a form
+
+```yaml
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: ~
+      form_login:
+        login_path: login
+        check_path: login
+```
+
+Enable sessions in the framework config
+
+```yaml
+session: ~
+```
+
+Define the controller.
+
+```php
+<?php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+class Security extends Controller
+{
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction(Request $request, AuthenticationUtils $authUtils)
+    {
+        $error = $authUtils->getLastAuthenticationError();
+        $lastUsername = $authUtils->getLastUsername();
+
+        return $this->render('login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
+    }
+}
+```
+
+Add the template
+
+```twig
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row align-center">
+        <div class="small-12 medium-10 large-8 columns">
+            <h1>Login</h1>
+
+            {% if error %}
+                <div class="alert callout"><p>{{ error.messageKey|trans(error.messageData, 'security') }}</p></div>
+            {% endif %}
+
+            <form action="{{ path('login') }}" method="post">
+                <div class="row">
+                    <div class="small-6 columns">
+                        <label for="username">Username
+                            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                        </label>
+                    </div>
+                    <div class="small-6 columns">
+                        <label for="password">Password
+                            <input type="password" id="password" name="_password" />
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="primary button">login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+```
+

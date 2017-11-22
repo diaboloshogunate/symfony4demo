@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row align-center">
+        <div class="small-12 medium-10 large-8 columns">
+            <h1>Login</h1>
+
+            {% if error %}
+                <div class="alert callout"><p>{{ error.messageKey|trans(error.messageData, 'security') }}</p></div>
+            {% endif %}
+
+            <form action="{{ path('login') }}" method="post">
+                <div class="row">
+                    <div class="small-6 columns">
+                        <label for="username">Username
+                            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                        </label>
+                    </div>
+                    <div class="small-6 columns">
+                        <label for="password">Password
+                            <input type="password" id="password" name="_password" />
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="primary button">login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
