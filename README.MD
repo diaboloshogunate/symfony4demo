@@ -635,3 +635,40 @@ Create a new template just for post
     </div>
 {% endblock %}
 ```
+
+## Easy Admin
+
+install
+
+```bash
+composer require javiereguiluz/easyadmin-bundle
+```
+
+Add configuration
+
+```yaml
+easy_admin:
+  entities:
+    Post:
+      class: App\Entity\Post
+    Tag:
+      class: App\Entity\Tag
+  design:
+    brand_color: "#4CAF50"
+    menu:
+      - { label: "Back to home", route: 'hello world', icon: 'globe' }
+      - { label: "Entities" }
+      - { label: "Posts", entity: "Post", icon: "thumb-tack" }
+      - { label: "Tags", entity: "Tag", icon: "tag" }
+```
+
+Add toString method to tags so they can be displayed when viewing post entities
+
+```php
+    public function __toString()
+    {
+        return $this->getName();
+    }
+```
+
+view pages at [http://localhost:8000/admin](http://localhost:8000/admin)

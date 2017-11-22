@@ -26,6 +26,11 @@ class Tag
      */
     private $description;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * @return mixed
      */

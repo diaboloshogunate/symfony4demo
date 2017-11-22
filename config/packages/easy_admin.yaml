@@ -1,0 +1,13 @@
+easy_admin:
+  entities:
+    Post:
+      class: App\Entity\Post
+    Tag:
+      class: App\Entity\Tag
+  design:
+    brand_color: "#4CAF50"
+    menu:
+      - { label: "Back to home", route: 'hello world', icon: 'globe' }
+      - { label: "Entities" }
+      - { label: "Posts", entity: "Post", icon: "thumb-tack" }
+      - { label: "Tags", entity: "Tag", icon: "tag" }

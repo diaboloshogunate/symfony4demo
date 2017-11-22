@@ -220,5 +220,71 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.4"
+    },
+    "twig/extensions": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "4851df0afc426b8f07204379d21fca25b6df5d68"
+        }
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "124be9a2b7cc035fd8c56f4fd2e19c907c1f3fb8"
+        }
+    },
+    "symfony/validator": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/inflector": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/property-access": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/security": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/security-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "85834af1496735f28d831489d12ab1921a875e0d"
+        }
+    },
+    "symfony/options-resolver": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/intl": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.6.0"
+    },
+    "symfony/form": {
+        "version": "v4.0.0-rc1"
+    },
+    "symfony/asset": {
+        "version": "v4.0.0-rc1"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v1.0.5"
+    },
+    "javiereguiluz/easyadmin-bundle": {
+        "version": "1.17",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.17",
+            "ref": "66070ea553247b0cd5275e21d0fe5399a25f40be"
+        }
     }
 }
